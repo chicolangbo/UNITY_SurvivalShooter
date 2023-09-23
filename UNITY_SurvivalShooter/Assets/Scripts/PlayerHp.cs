@@ -49,13 +49,13 @@ public class PlayerHp : LivingEntity
             // 오디오 재생
         }
         base.OnDamage(damage, default(Vector3), default(Vector3));
-        hpSlider.value = hp;
+        //hpSlider.value = hp;
     }
 
     public override void Die()
     {
         base.Die();
-        hpSlider.value = hp;
+        //hpSlider.value = hp;
 
         playerAnimator.SetTrigger("Die");
         playerMovement.enabled = false;

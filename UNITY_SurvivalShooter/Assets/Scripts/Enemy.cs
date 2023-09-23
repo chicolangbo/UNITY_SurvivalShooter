@@ -15,7 +15,7 @@ public class Enemy : LivingEntity
 
     private Animator enemyAnimator;
     
-    public float damage = 20f;
+    public float damage;
     public float timeBetAttack = 0.5f;
     private float lastAttackTime;
 
@@ -31,6 +31,11 @@ public class Enemy : LivingEntity
     {
         pathFinder = GetComponent<NavMeshAgent>();
         enemyAnimator = GetComponent<Animator>();
+        onDeath += () =>
+        {
+            Destroy(GetComponent<Collider>());
+            Destroy(GetComponent<SphereCollider>());
+        };
     }
 
     private void Start()
@@ -41,6 +46,11 @@ public class Enemy : LivingEntity
     private void Update()
     {
         enemyAnimator.SetBool("HasTarget", hasTarget);
+
+        if(death)
+        {
+            transform.position += new Vector3 ( 0, -0.01f, 0f );
+        }
     }
 
     public void Setup(float newHealth, float newDamage, float newSpeed)
@@ -106,6 +116,9 @@ public class Enemy : LivingEntity
 
     private void OnTriggerStay(Collider other)
     {
+        if (targetEntity == null)
+            return;
+
         if((Time.time > lastAttackTime + timeBetAttack) && (other.gameObject == targetEntity.gameObject))
         {
             lastAttackTime = Time.time;
