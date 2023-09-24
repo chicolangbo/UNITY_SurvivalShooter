@@ -20,17 +20,39 @@ public class SoundManager : MonoBehaviour
 
     private static SoundManager m_instacne;
 
+    public Slider effectAudioSlider;
+    public Slider bgAudioSlider;
+
+    private float prevBgVolume;
+    private float prevEffectVolume;
+
     public List<AudioSource> enemyAudioSource;
+    public AudioSource bgAudioSource;
     public AudioSource playerAudioSource;
     public AudioSource gunShotAudioSource;
-
-    public Slider effectAudioSlider;
 
     public void SetEnemyVolume()
     {
         for (int i = 0; i < enemyAudioSource.Count; i++)
         {
             enemyAudioSource[i].volume = effectAudioSlider.value;
+        }
+    }
+
+    public void OnMuteClick(bool isOn)
+    {
+        if (isOn)
+        {
+            prevBgVolume = bgAudioSlider.value;
+            prevEffectVolume = effectAudioSlider.value;
+
+            bgAudioSlider.value = 0f;
+            effectAudioSlider.value = 0f;
+        }
+        else
+        {
+            bgAudioSlider.value = prevBgVolume;
+            effectAudioSlider.value = prevEffectVolume;
         }
     }
 }

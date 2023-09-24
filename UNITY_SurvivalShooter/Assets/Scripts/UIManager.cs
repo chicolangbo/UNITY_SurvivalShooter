@@ -28,9 +28,6 @@ public class UIManager : MonoBehaviour
     public GameObject hitScreen;
     public GameObject pauseUI;
 
-    public List<AudioSource> enemyAudioSource;
-    public Slider effectAudioSlider;
-
     public void UpdateScoreText(int newScore)
     {
         StringBuilder sb = new StringBuilder();
@@ -47,13 +44,5 @@ public class UIManager : MonoBehaviour
     public void SetActivePauseUI(bool active)
     {
         pauseUI.SetActive(active);
-    }
-
-    public void SetEnemyVolume()
-    {
-        for(int i = 0; i<enemyAudioSource.Count; i++)
-        {
-            enemyAudioSource[i].volume = effectAudioSlider.value;
-        }
     }
 }

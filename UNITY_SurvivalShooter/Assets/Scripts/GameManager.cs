@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
 
         if(isPaused)
         {
-            UIManager.instance.SetEnemyVolume();
+            SoundManager.instance.SetEnemyVolume();
         }
     }
 
