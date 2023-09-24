@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -38,13 +39,26 @@ public class GameManager : MonoBehaviour
         if(!isGameover)
         {
             score += newScore;
-            //UIManager.instance.UpdateScoreText(score);
+            UIManager.instance.UpdateScoreText(score);
         }
     }
 
     public void EndGame()
     {
         isGameover = true;
-        //UIManager.instance.SetActiveGameoverUI(true);
+        UIManager.instance.OpenGameoverUI();
+    }
+
+    private void Update()
+    {
+        if (UIManager.instance.gameoverUI.GetComponent<FadeController>().isFadeInDone)
+        {
+            GameRestart();
+        }
+    }
+
+    public void GameRestart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

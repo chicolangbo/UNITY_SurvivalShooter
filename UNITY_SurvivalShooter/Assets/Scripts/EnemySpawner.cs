@@ -50,7 +50,7 @@ public class EnemySpawner : MonoBehaviour
                     {
                         enemies.Remove(enemy);
                         Destroy(enemy.gameObject, 3f);
-                        //GameManager.instance.AddScore(50);
+                        GameManager.instance.AddScore(50);
                     };
                 }
                 else

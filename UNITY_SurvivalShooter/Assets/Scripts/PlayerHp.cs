@@ -10,12 +10,14 @@ public class PlayerHp : LivingEntity
     private Animator playerAnimator;
     private PlayerMovement playerMovement;
     private PlayerShooter playerShooter;
+    private FadeController hitScreenEffect;
 
     private void Awake()
     {
         playerAnimator = GetComponent<Animator>();
         playerMovement = GetComponent<PlayerMovement>();
         playerShooter = GetComponent<PlayerShooter>();
+        hitScreenEffect = UIManager.instance.hitScreen.GetComponent<FadeController>();
     }
 
     private void Update()
@@ -47,15 +49,16 @@ public class PlayerHp : LivingEntity
         if(!death)
         {
             // ¿Àµð¿À Àç»ý
+            base.OnDamage(damage, default(Vector3), default(Vector3));
+            hpSlider.value = hp;
+            hitScreenEffect.StartFade();
         }
-        base.OnDamage(damage, default(Vector3), default(Vector3));
-        //hpSlider.value = hp;
     }
 
     public override void Die()
     {
         base.Die();
-        //hpSlider.value = hp;
+        hpSlider.value = hp;
 
         playerAnimator.SetTrigger("Die");
         playerMovement.enabled = false;
@@ -68,7 +71,5 @@ public class PlayerHp : LivingEntity
         {
             return;
         }
-
-        // ¾ÆÀÌÅÛ È¹µæ
     }
 }
