@@ -9,6 +9,9 @@ public class Gun : MonoBehaviour
     public ParticleSystem muzzleEffect;
     private LineRenderer bulletLineRenderer;
 
+    private AudioSource gunShotAudioSource;
+    public AudioClip gunShot;
+
     public float damage = 25;
 
     private float fireDistance = 50f; // 사정거리
@@ -20,6 +23,7 @@ public class Gun : MonoBehaviour
         bulletLineRenderer = GetComponent<LineRenderer>();
         bulletLineRenderer.positionCount = 2;
         bulletLineRenderer.enabled = false;
+        gunShotAudioSource = GetComponent<AudioSource>();
     }
 
     private void OnEnable()
@@ -33,6 +37,7 @@ public class Gun : MonoBehaviour
         {
             lastFireTime = Time.time;
             Shot();
+            gunShotAudioSource.PlayOneShot(gunShot);
         }
     }
 

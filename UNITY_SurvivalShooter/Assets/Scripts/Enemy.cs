@@ -12,6 +12,9 @@ public class Enemy : LivingEntity
     private NavMeshAgent pathFinder;
 
     public ParticleSystem hitEffect;
+    private AudioSource enemyAudioSource;
+    public AudioClip enemyHit;
+    public AudioClip enemyDeath;
 
     private Animator enemyAnimator;
     
@@ -31,6 +34,7 @@ public class Enemy : LivingEntity
     {
         pathFinder = GetComponent<NavMeshAgent>();
         enemyAnimator = GetComponent<Animator>();
+        enemyAudioSource = GetComponent<AudioSource>();
         onDeath += () =>
         {
             Destroy(GetComponent<Collider>());
@@ -96,6 +100,7 @@ public class Enemy : LivingEntity
             hitEffect.transform.position = hitPoint;
             hitEffect.transform.rotation = Quaternion.LookRotation(hitNormal);
             hitEffect.Play();
+            enemyAudioSource.PlayOneShot(enemyHit);
         }
     }
 
@@ -112,6 +117,7 @@ public class Enemy : LivingEntity
         pathFinder.enabled = false;
 
         enemyAnimator.SetTrigger("Die");
+        enemyAudioSource.PlayOneShot(enemyDeath);
     }
 
     private void OnTriggerStay(Collider other)

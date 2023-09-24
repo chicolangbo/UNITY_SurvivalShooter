@@ -12,12 +12,18 @@ public class PlayerHp : LivingEntity
     private PlayerShooter playerShooter;
     private FadeController hitScreenEffect;
 
+    private AudioSource playerAudioSource;
+    public AudioClip playerHit;
+    public AudioClip playerDeath;
+
+
     private void Awake()
     {
         playerAnimator = GetComponent<Animator>();
         playerMovement = GetComponent<PlayerMovement>();
         playerShooter = GetComponent<PlayerShooter>();
         hitScreenEffect = UIManager.instance.hitScreen.GetComponent<FadeController>();
+        playerAudioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -48,10 +54,10 @@ public class PlayerHp : LivingEntity
     {
         if(!death)
         {
-            // 오디오 재생
             base.OnDamage(damage, default(Vector3), default(Vector3));
             hpSlider.value = hp;
             hitScreenEffect.StartFade();
+            playerAudioSource.PlayOneShot(playerHit);
         }
     }
 
@@ -63,6 +69,7 @@ public class PlayerHp : LivingEntity
         playerAnimator.SetTrigger("Die");
         playerMovement.enabled = false;
         playerShooter.enabled = false;
+        playerAudioSource.PlayOneShot(playerDeath);
     }
 
     private void OnTriggerEnter(Collider other)

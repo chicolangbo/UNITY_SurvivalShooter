@@ -18,8 +18,10 @@ public class GameManager : MonoBehaviour
     }
 
     private static GameManager m_instance;
+
     public int score { get; private set; }
     public bool isGameover { get; private set; }
+    public bool isPaused { get; private set; } = false;
 
     private void Awake()
     {
@@ -43,22 +45,53 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (UIManager.instance.gameoverUI.GetComponent<FadeController>().isFadeInDone)
+        {
+            RestartGame();
+        }
+
+        if (!isGameover && Input.GetButtonDown("Cancel"))
+        {
+            PauseGame();
+        }
+
+        if(isPaused)
+        {
+            UIManager.instance.SetEnemyVolume();
+        }
+    }
+
     public void EndGame()
     {
         isGameover = true;
         UIManager.instance.OpenGameoverUI();
     }
 
-    private void Update()
+
+    public void PauseGame()
     {
-        if (UIManager.instance.gameoverUI.GetComponent<FadeController>().isFadeInDone)
+        if (isPaused)
         {
-            GameRestart();
+            isPaused = false;
+            Time.timeScale = 1f;
         }
+        else
+        {
+            isPaused = true;
+            Time.timeScale = 0f;
+        }
+        UIManager.instance.SetActivePauseUI(isPaused);
     }
 
-    public void GameRestart()
+    public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }

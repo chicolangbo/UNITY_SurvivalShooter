@@ -23,13 +23,13 @@ public class UIManager : MonoBehaviour
 
     private static UIManager m_instacne;
 
-    public string pauseButtonName = "Cancel";
-    public bool isPaused { get; private set; } = false;
-
     public TextMeshProUGUI scoreText;
     public GameObject gameoverUI;
     public GameObject hitScreen;
     public GameObject pauseUI;
+
+    public List<AudioSource> enemyAudioSource;
+    public Slider effectAudioSlider;
 
     public void UpdateScoreText(int newScore)
     {
@@ -49,12 +49,11 @@ public class UIManager : MonoBehaviour
         pauseUI.SetActive(active);
     }
 
-    private void Update()
+    public void SetEnemyVolume()
     {
-        isPaused = Input.GetButtonDown(pauseButtonName);
-        if(isPaused)
+        for(int i = 0; i<enemyAudioSource.Count; i++)
         {
-            SetActivePauseUI(isPaused);
+            enemyAudioSource[i].volume = effectAudioSlider.value;
         }
     }
 }

@@ -44,6 +44,7 @@ public class EnemySpawner : MonoBehaviour
                     var enemy = Instantiate(enemyPrefab[2], point.position, point.rotation);
                     enemy.Setup(bossHp, bossDamage, bossSpeed);
                     enemies.Add(enemy);
+                    SoundManager.instance.enemyAudioSource.Add(enemy.GetComponent<AudioSource>());
                     bossCount++;
 
                     enemy.onDeath += () =>
@@ -58,6 +59,7 @@ public class EnemySpawner : MonoBehaviour
                     var enemy = Instantiate(enemyPrefab[Random.Range(0,2)], point.position, point.rotation);
                     enemy.Setup(generalHp, generalDamage, generalSpeed);
                     enemies.Add(enemy);
+                    SoundManager.instance.enemyAudioSource.Add(enemy.GetComponent<AudioSource>());
 
                     enemy.onDeath += () =>
                     {
